@@ -7,6 +7,7 @@ package shopmanagment;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -17,8 +18,107 @@ public class ShopManagment extends javax.swing.JFrame {
     /**
      * Creates new form ShopManagment
      */
+    Connection conn;
+    String sql;
+    PreparedStatement preStatment;
+    ResultSet result;
+    String st[] = {"Food", "Mobile", "Laptop", "Drass", "Book"};
+
     public ShopManagment() {
-        initComponents();
+        try {
+            initComponents();
+            conn = new DBhandeller().getConnection();
+            sql = "select * from employee";
+            preStatment = conn.prepareStatement(sql);
+            result = preStatment.executeQuery();
+        } catch (SQLException ex) {
+            try {
+                sql = "CREATE TABLE employee("
+                        + "  id varchar2(100) NOT NULL,"
+                        + "  name varchar2(50) NOT NULL,"
+                        + "  sex varchar(50) NOT NULL,"
+                        + "  salary number(8),"
+                        + " password varchar2(100) NOT NULL"
+                        + ")";
+                preStatment = conn.prepareStatement(sql);
+                result = preStatment.executeQuery();
+
+            } catch (SQLException ex1) {
+                Logger.getLogger(ShopManagment.class.getName()).log(Level.SEVERE, "1", ex1);
+            }
+        }
+        
+        try {
+            
+            conn = new DBhandeller().getConnection();
+            sql = "select * from product";
+            preStatment = conn.prepareStatement(sql);
+            result = preStatment.executeQuery();
+        } catch (SQLException ex) {
+            try {
+                sql = "CREATE TABLE product("
+                        + "  name varchar2(100) NOT NULL,"
+                        + "  category varchar2(50) NOT NULL,"
+                        + "  buyingprice number(8,2),"
+                        + "  sellingPrice number(8,2),"
+                        + " available number(8)"
+                        + ")";
+                preStatment = conn.prepareStatement(sql);
+                result = preStatment.executeQuery();
+
+
+            } catch (SQLException ex1) {
+                Logger.getLogger(ShopManagment.class.getName()).log(Level.SEVERE, "2", ex1);
+            }
+        }
+        
+        try {
+            conn = new DBhandeller().getConnection();
+            sql = "select * from TRANSACTION";
+            preStatment = conn.prepareStatement(sql);
+            result = preStatment.executeQuery();
+        } catch (SQLException ex) {
+            try {
+                sql = "CREATE TABLE TRANSACTION("
+                        + "  id timestamp,"
+                        + "  profit number(8,2)"
+                        + ")";
+                preStatment = conn.prepareStatement(sql);
+                result = preStatment.executeQuery();
+
+            } catch (SQLException ex1) {
+                Logger.getLogger(ShopManagment.class.getName()).log(Level.SEVERE, "3", ex1);
+            }
+        }
+        
+        try {
+            
+            conn = new DBhandeller().getConnection();
+            sql = "select * from category";
+            preStatment = conn.prepareStatement(sql);
+            result = preStatment.executeQuery();
+        } catch (SQLException ex) {
+            try {
+                sql = "CREATE TABLE category("
+                        + "  c_gory varchar2(100)"
+                        + ")";
+                preStatment = conn.prepareStatement(sql);
+                result = preStatment.executeQuery();
+                for (int i = 0; i < 5; i++) {
+                    sql = ""
+                            + " begin "
+                            + "       insert into category values(?);"
+                            + " end; ";
+                    CallableStatement cs = conn.prepareCall(sql);
+                    cs.setString(1, st[i]);
+                    cs.execute();
+                }
+
+            } catch (SQLException ex1) {
+                Logger.getLogger(ShopManagment.class.getName()).log(Level.SEVERE, "4", ex1);
+            }
+        }
+        
     }
 
     /**
@@ -109,18 +209,18 @@ public class ShopManagment extends javax.swing.JFrame {
     private void logingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logingActionPerformed
         try {
             // TODO add your handling code here:
-            Connection conn = new DBhandeller().getConnection();
+
 
             String uid, pass, tmppass = "";
             uid = userId.getText();
             pass = password.getText();
             if (uid.equals("root") && pass.equals("123456")) {
-                
+
                 Employee.set("", "", false);
                 this.dispose();
                 AdminPage p = new AdminPage();
                 p.setVisible(true);
-                
+
             } else {
                 String sql = "select password from employee where id='" + uid + "'";
                 PreparedStatement preStatment = conn.prepareStatement(sql);
