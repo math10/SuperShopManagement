@@ -1,0 +1,74 @@
+<%- include('../partials/header') %>
+<section class="card">
+  <h1>Billing</h1>
+  <form method="post" action="/billing/items" class="row">
+    <label>Product
+      <select name="productId" required>
+        <option value="">Choose…</option>
+        <% for (const group of groups) { %>
+        <optgroup label="<%= group.category %>">
+          <% for (const product of group.products) { %>
+          <option value="<%= product.id %>"<%= product.available <= 0 ? ' disabled' : '' %><%= String(product.id) === values.productId ? ' selected' : '' %>><%= product.name %> · <%= product.sellingPrice %> · <%= product.available <= 0 ? 'none left' : `${product.available} available` %></option>
+          <% } %>
+        </optgroup>
+        <% } %>
+      </select>
+    </label>
+    <label>Quantity
+      <input name="quantity" value="<%= values.quantity ?? '1' %>" inputmode="numeric" size="6" required>
+    </label>
+    <button type="submit">Add</button>
+  </form>
+</section>
+<section class="card">
+  <h2>Current bill</h2>
+  <% if (lines.length === 0) { %>
+  <p class="muted">No items yet.</p>
+  <% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th class="num">Unit Price</th>
+          <th class="num">No of Unit</th>
+          <th class="num">Total</th>
+          <th><span class="muted">Remove</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const line of lines) { %>
+        <tr>
+          <td><%= line.name %></td>
+          <td class="num"><%= line.unitPrice %></td>
+          <td class="num"><%= line.quantity %><% if (line.quantity > line.stock) { %><br><span class="out-of-stock">Only <%= line.stock %> left in stock</span><% } %></td>
+          <td class="num"><%= line.lineTotal %></td>
+          <td>
+            <form method="post" action="/billing/items/<%= line.productId %>/remove" class="inline">
+              <button type="submit" class="link">Remove</button>
+            </form>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Total Price</td>
+          <td class="num"><%= total %></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="actions">
+    <form method="post" action="/billing/checkout" class="inline">
+      <input type="hidden" name="cartToken" value="<%= cartToken %>">
+      <button type="submit">Make Bill</button>
+    </form>
+    <form method="post" action="/billing/cancel" class="inline">
+      <button type="submit" class="secondary">Cancel bill</button>
+    </form>
+  </div>
+  <% } %>
+</section>
+<%- include('../partials/footer') %>

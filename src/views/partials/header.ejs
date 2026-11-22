@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= locals.title ? `${locals.title} · Super Shop Management` : 'Super Shop Management' %></title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">Super Shop Management</a>
+  <% if (locals.user) { %>
+  <nav aria-label="Main">
+    <% if (user.role === 'admin') { %>
+    <a href="/products">Products</a>
+    <a href="/employees/new">Add Employee</a>
+    <a href="/reports/profit">Profit</a>
+    <% } else { %>
+    <a href="/products">Products</a>
+    <a href="/billing">Billing</a>
+    <% } %>
+    <a href="/account/password">Password</a>
+    <form method="post" action="/logout" class="logout">
+      <button type="submit" class="link"><%= user.username %> · Log out</button>
+    </form>
+  </nav>
+  <% } %>
+</header>
+<main>
+<%- include('messages') %>

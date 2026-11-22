@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<section class="card narrow">
+  <h1>Add employee</h1>
+  <p class="muted">The ID (E1, E2, …) is given automatically when you save.</p>
+  <form method="post" action="/employees" class="stack">
+    <input type="hidden" name="formToken" value="<%= formToken %>">
+    <label>Name
+      <input name="name" value="<%= values.name ?? '' %>" maxlength="100" required>
+    </label>
+    <label>Gender
+      <select name="gender" required>
+        <option value="">Choose…</option>
+        <% for (const gender of genders) { %>
+        <option value="<%= gender %>"<%= values.gender === gender ? ' selected' : '' %>><%= gender %></option>
+        <% } %>
+      </select>
+    </label>
+    <label>Salary
+      <input name="salary" value="<%= values.salary ?? '' %>" inputmode="numeric" required>
+    </label>
+    <label>Temporary password <span class="hint">At least 8 characters. They must change it when they first log in.</span>
+      <input type="password" name="password" autocomplete="new-password" required>
+    </label>
+    <div class="actions">
+      <button type="submit">Add</button>
+      <a href="/">Back</a>
+    </div>
+  </form>
+</section>
+<%- include('../partials/footer') %>

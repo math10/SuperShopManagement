@@ -1,0 +1,31 @@
+{
+  "name": "supershop-management",
+  "version": "1.0.0",
+  "description": "Point-of-sale and inventory web app for a super shop (Node.js rewrite of the Java/Oracle SuperShopManagement).",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "migrate": "node scripts/migrate.js",
+    "create-admin": "node scripts/create-admin.js",
+    "db:dev": "node scripts/dev-db.js",
+    "test": "node scripts/test.js"
+  },
+  "dependencies": {
+    "connect-pg-simple": "^10.0.0",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "embedded-postgres": "18.7.0-beta.19",
+    "supertest": "^7.3.2"
+  }
+}

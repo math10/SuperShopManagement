@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<section class="card">
+  <h1>Profit Calculation</h1>
+  <form method="get" action="/reports/profit" class="row">
+    <label>Period
+      <select name="period">
+        <% for (const [key, { label }] of Object.entries(periods)) { %>
+        <option value="<%= key %>"<%= key === period ? ' selected' : '' %>><%= label %></option>
+        <% } %>
+      </select>
+    </label>
+    <button type="submit" class="secondary">Show</button>
+  </form>
+</section>
+<section class="card">
+  <h2><%= periods[period].label %></h2>
+  <div class="stats">
+    <div class="stat">
+      <div class="label">Number of bills</div>
+      <div class="value" id="bill-count"><%= summary.billCount %></div>
+    </div>
+    <div class="stat">
+      <div class="label">Total sales</div>
+      <div class="value" id="revenue"><%= summary.revenue %></div>
+    </div>
+    <div class="stat">
+      <div class="label">Total profit</div>
+      <div class="value" id="profit"><%= summary.profit %></div>
+    </div>
+  </div>
+</section>
+<%- include('../partials/footer') %>

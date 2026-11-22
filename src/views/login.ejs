@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<section class="card narrow">
+  <h1>Log in</h1>
+  <form method="post" action="/login" class="stack">
+    <label>User ID
+      <input name="username" value="<%= username %>" autocomplete="username" required autofocus>
+    </label>
+    <label>Password
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <button type="submit">Log in</button>
+  </form>
+</section>
+<%- include('partials/footer') %>

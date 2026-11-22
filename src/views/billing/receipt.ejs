@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+<section class="card">
+  <h1>Bill #<%= sale.id %></h1>
+  <p class="muted"><%= createdAt %> · Cashier: <%= sale.cashierName %> (<%= sale.cashierUsername %>)</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th class="num">Unit Price</th>
+          <th class="num">No of Unit</th>
+          <th class="num">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const item of sale.items) { %>
+        <tr>
+          <td><%= item.productName %></td>
+          <td class="num"><%= item.unitPrice %></td>
+          <td class="num"><%= item.quantity %></td>
+          <td class="num"><%= item.lineTotal %></td>
+        </tr>
+        <% } %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Total Price</td>
+          <td class="num"><%= sale.total %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="actions no-print">
+    <% if (user.role === 'employee') { %>
+    <a class="button" href="/billing">New bill</a>
+    <% } %>
+    <a href="/">Main page</a>
+  </div>
+</section>
+<%- include('../partials/footer') %>

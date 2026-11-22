@@ -1,0 +1,53 @@
+<%- include('../partials/header') %>
+<section class="card">
+  <div class="row spread">
+    <h1><%= user.role === 'admin' ? 'Product Management' : 'Product Information' %></h1>
+    <% if (user.role === 'admin') { %>
+    <a class="button" href="/products/new">Add product</a>
+    <% } %>
+  </div>
+  <form method="get" action="/products" class="row">
+    <label>Category
+      <select name="category">
+        <option value="">All categories</option>
+        <% for (const category of categories) { %>
+        <option value="<%= category.id %>"<%= category.id === selectedCategoryId ? ' selected' : '' %>><%= category.name %></option>
+        <% } %>
+      </select>
+    </label>
+    <button type="submit" class="secondary">Show</button>
+  </form>
+</section>
+<section class="card">
+  <% if (products.length === 0) { %>
+  <p class="muted">No products<%= selectedCategoryId ? ' in this category' : '' %> yet.</p>
+  <% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th class="num">Cost price</th>
+          <th class="num">Selling price</th>
+          <th class="num">Available</th>
+          <% if (user.role === 'admin') { %><th><span class="muted">Actions</span></th><% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const product of products) { %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.categoryName %></td>
+          <td class="num"><%= product.costPrice %></td>
+          <td class="num"><%= product.sellingPrice %></td>
+          <td class="num<%= product.stock === 0 ? ' out-of-stock' : '' %>"><%= product.stock %></td>
+          <% if (user.role === 'admin') { %><td><a href="/products/<%= product.id %>/edit">Edit</a></td><% } %>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<section class="card narrow">
+  <h1>Add product</h1>
+  <form method="post" action="/products" class="stack">
+    <input type="hidden" name="formToken" value="<%= formToken %>">
+    <label>Category
+      <select name="categoryId" required>
+        <option value="">Choose…</option>
+        <% for (const category of categories) { %>
+        <option value="<%= category.id %>"<%= String(category.id) === values.categoryId ? ' selected' : '' %>><%= category.name %></option>
+        <% } %>
+      </select>
+    </label>
+    <label>Name
+      <input name="name" value="<%= values.name ?? '' %>" maxlength="100" required>
+    </label>
+    <label>Cost price
+      <input name="costPrice" value="<%= values.costPrice ?? '' %>" inputmode="decimal" required>
+    </label>
+    <label>Selling price
+      <input name="sellingPrice" value="<%= values.sellingPrice ?? '' %>" inputmode="decimal" required>
+    </label>
+    <label>Available <span class="hint">How many are in stock now</span>
+      <input name="stock" value="<%= values.stock ?? '' %>" inputmode="numeric" required>
+    </label>
+    <div class="actions">
+      <button type="submit">Add</button>
+      <a href="/products">Cancel</a>
+    </div>
+  </form>
+</section>
+<%- include('../partials/footer') %>

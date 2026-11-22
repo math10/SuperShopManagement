@@ -1,0 +1,15 @@
+<% if (locals.flash) { %>
+<p class="flash flash-<%= flash.type %>" role="status"><%= flash.message %></p>
+<% } %>
+<% if (locals.errors && errors.length > 0) { %>
+<div class="errors" role="alert">
+  <% if (errors.length === 1) { %>
+  <p><%= errors[0] %></p>
+  <% } else { %>
+  <p>Please fix the following:</p>
+  <ul>
+    <% for (const message of errors) { %><li><%= message %></li><% } %>
+  </ul>
+  <% } %>
+</div>
+<% } %>

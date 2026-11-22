@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<section class="card narrow">
+  <h1>Update product</h1>
+  <p><strong><%= product.name %></strong> <span class="muted">· <%= product.categoryName %></span></p>
+  <form method="post" action="/products/<%= product.id %>" class="stack">
+    <input type="hidden" name="formToken" value="<%= formToken %>">
+    <label>Cost price
+      <input name="costPrice" value="<%= values.costPrice ?? '' %>" inputmode="decimal" required>
+    </label>
+    <label>Selling price
+      <input name="sellingPrice" value="<%= values.sellingPrice ?? '' %>" inputmode="decimal" required>
+    </label>
+    <p>Available now: <strong><%= product.stock %></strong></p>
+    <label>Add to stock <span class="hint">Use a negative number to remove stock</span>
+      <input name="stockChange" value="<%= values.stockChange ?? '0' %>" inputmode="numeric">
+    </label>
+    <div class="actions">
+      <button type="submit">Update</button>
+      <a href="/products">Cancel</a>
+    </div>
+  </form>
+</section>
+<%- include('../partials/footer') %>

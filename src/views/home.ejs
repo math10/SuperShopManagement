@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+<section class="card">
+  <h1>Welcome, <%= user.name %></h1>
+  <div class="menu">
+    <% if (user.role === 'admin') { %>
+    <a class="menu-item" href="/products">Product Management</a>
+    <a class="menu-item" href="/reports/profit">Profit Calculation</a>
+    <a class="menu-item" href="/employees/new">Add Employee</a>
+    <% } else { %>
+    <a class="menu-item" href="/products">Get Product Information</a>
+    <a class="menu-item" href="/billing">Billing</a>
+    <% } %>
+    <a class="menu-item" href="/account/password">Change Password</a>
+  </div>
+</section>
+<%- include('partials/footer') %>
