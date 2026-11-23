@@ -7,7 +7,7 @@
 // tests, so never point it at real data). Otherwise a throwaway PostgreSQL is
 // started in a temporary folder and deleted afterwards.
 import { spawn } from 'node:child_process';
-import { mkdtemp, readdir, rm } from 'node:fs/promises';
+import { chmod, mkdtemp, readdir, rm } from 'node:fs/promises';
 import net from 'node:net';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -32,6 +32,11 @@ function freePort() {
 async function startThrowawayDatabase() {
   const { default: EmbeddedPostgres } = await import('embedded-postgres');
   const dir = await mkdtemp(join(tmpdir(), 'supershop-test-'));
+  // PostgreSQL refuses to run as root (containers, some CI machines). There,
+  // embedded-postgres runs it as a "postgres" user instead, which needs to
+  // reach the data folder inside this otherwise private temporary folder.
+  const asRoot = process.getuid?.() === 0;
+  if (asRoot) await chmod(dir, 0o755);
   const port = await freePort();
   const server = new EmbeddedPostgres({
     databaseDir: join(dir, 'data'),
@@ -40,6 +45,7 @@ async function startThrowawayDatabase() {
     password: 'postgres',
     authMethod: 'scram-sha-256',
     persistent: false,
+    createPostgresUser: asRoot,
     onLog: () => {},
   });
   await server.initialise();

@@ -25,6 +25,8 @@ const server = new EmbeddedPostgres({
   password: 'postgres',
   authMethod: 'scram-sha-256',
   persistent: true,
+  // PostgreSQL refuses to run as root; there, run it as a "postgres" user.
+  createPostgresUser: process.getuid?.() === 0,
   onLog: () => {},
 });
 
