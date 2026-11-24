@@ -2,6 +2,7 @@
   "name": "supershop-management",
   "version": "1.0.0",
   "description": "Point-of-sale and inventory web app for a super shop (Node.js rewrite of the Java/Oracle SuperShopManagement).",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "engines": {

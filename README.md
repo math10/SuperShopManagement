@@ -141,3 +141,7 @@ The original Java Swing + Oracle desktop app is kept in the `legacy-java` branch
 ### Not included yet
 
 Editing or removing employees, an employee list, adding categories, renaming products or moving them to another category, deleting products, returns and refunds, multiple branches, barcode scanners and receipt printers. Browsers can print receipts with Ctrl+P.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
